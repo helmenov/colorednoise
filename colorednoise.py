@@ -2,7 +2,7 @@
 
 from numpy import sqrt, newaxis
 from numpy.fft import irfft, rfftfreq
-from numpy.random import normal
+from numpy.random import default_rng
 from numpy import sum as npsum
 
 
@@ -89,8 +89,9 @@ def powerlaw_psd_gaussian(exponent, size, fmin=0):
     s_scale     = s_scale[(newaxis,) * dims_to_add + (Ellipsis,)]
     
     # Generate scaled random power + phase
-    sr = normal(scale=s_scale, size=size)
-    si = normal(scale=s_scale, size=size)
+    rng = default_rng()
+    sr = rng.normal(scale=s_scale, size=size)
+    si = rng.normal(scale=s_scale, size=size)
     
     # If the signal length is even, frequencies +/- 0.5 are equal
     # so the coefficient must be real.
